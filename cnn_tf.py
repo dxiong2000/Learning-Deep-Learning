@@ -89,26 +89,32 @@ init_op = tf.compat.v1.global_variables_initializer()
 
 # cost list for plot
 cost = []
+epoch = 1
 
 # session
 with tf.compat.v1.Session() as sess:
     sess.run(init_op)
     total_batch = int(len(mnist.train.labels) / BATCH_SIZE)
 
-    for epoch in range(EPOCHS):
-        avg_cost = 0
+    try:
+        while True:
+            avg_cost = 0
+            print("Beginning epoch {}".format(epoch))
 
-        for i in range(total_batch):
-            batch_x, batch_y, = mnist.train.next_batch(batch_size=BATCH_SIZE)
-            _, c = sess.run([optimiser, cost_func], feed_dict={x: batch_x, y: batch_y})
-            avg_cost += c / total_batch
+            for i in range(total_batch):
+                batch_x, batch_y, = mnist.train.next_batch(batch_size=BATCH_SIZE)
+                _, c = sess.run([optimiser, cost_func], feed_dict={x: batch_x, y: batch_y})
+                avg_cost += c / total_batch
 
-        cost.append(avg_cost / total_batch)
+            cost.append(avg_cost / total_batch)
 
-        test_acc = sess.run(accuracy, feed_dict={x: mnist.test.images, y: mnist.test.labels})
-        print("Epoch: {} || Cost: {:.3f} || Test accuracy: {:.3f}".format(epoch+1, avg_cost, test_acc))
+            test_acc = sess.run(accuracy, feed_dict={x: mnist.test.images, y: mnist.test.labels})
+            print("Epoch: {} || Cost: {:.3f} || Test accuracy: {:.3f}".format(epoch, avg_cost, test_acc))
+            epoch += 1
 
-    print("Final accuracy: {}".format(sess.run(accuracy, feed_dict={x: mnist.test.images, y: mnist.test.labels})))
+    except KeyboardInterrupt:
+        print("Keyboard interrupt, training ended.")
+        print("Final accuracy: {}".format(sess.run(accuracy, feed_dict={x: mnist.test.images, y: mnist.test.labels})))
+        plt.plot(cost)
+        plt.show()
 
-plt.plot(cost)
-plt.show()
