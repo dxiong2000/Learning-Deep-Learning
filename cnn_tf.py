@@ -89,7 +89,6 @@ init_op = tf.compat.v1.global_variables_initializer()
 
 # cost list for plot
 cost = []
-epoch = 1
 
 # session
 with tf.compat.v1.Session() as sess:
