@@ -1,6 +1,6 @@
-# Neural Network Architectures
+# Machine Learning Architectures
 
-I've been learning about types of neural network architectures for my internship, so this is a small collection of the ones I've learned/currently learning.
+I've been learning about types of machine learning/neural network architectures for my internship, so this is a small collection of the ones I've learned/currently learning.
 
 ## scratch_mlp_skl.py
 Simple 3 layer MLP written from scratch with some help from the SciKit-Learn module. Classifier for the MNIST dataset (8x8 images). 
